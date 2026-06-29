@@ -3,6 +3,7 @@ services:
     build: .
     container_name: lake
     image: lake
+    #image: ghcr.io/skorotkiewicz/lake-r2-rs
     ports:
       - "3000:3000"
     environment:
