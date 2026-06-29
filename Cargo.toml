@@ -1,0 +1,13 @@
+[package]
+name = "lake"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+aws-config = "1"
+aws-credential-types = "1"
+aws-sdk-s3 = "1"
+axum = "0.8"
+rusqlite = { version = "0.32", features = ["bundled"] }
+tokio = { version = "1", features = ["full"] }
+uuid = { version = "1", features = ["v4"] }
