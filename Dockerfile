@@ -3,6 +3,7 @@ FROM rust:1-alpine AS build
 RUN apk add --no-cache build-base cmake perl
 WORKDIR /app
 COPY Cargo.toml Cargo.lock ./
+COPY favicon.svg ./
 COPY src ./src
 RUN cargo build --release
 
