@@ -12,7 +12,12 @@ docker pull ghcr.io/skorotkiewicz/lake-r2-rs
 
 ```sh
 cp .env.example .env
-docker compose up
+vi .env
+docker run --rm --name lake \
+  --env-file .env \
+  -p 3000:3000 \
+  -v lake-data:/data \
+  ghcr.io/skorotkiewicz/lake-r2-rs
 ```
 
 ## Run
