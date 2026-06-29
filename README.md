@@ -11,8 +11,10 @@ docker pull ghcr.io/skorotkiewicz/lake-r2-rs
 ```
 
 ```sh
-cp .env.example .env
-vi .env
+cp .env.example .env && vim .env
+```
+
+```sh
 docker run --rm --name lake \
   --env-file .env \
   -p 3000:3000 \
