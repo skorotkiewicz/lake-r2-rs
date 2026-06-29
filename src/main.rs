@@ -320,20 +320,18 @@ async fn cleanup_expired(state: Arc<AppState>) {
 }
 
 async fn delete_remote(state: &AppState, id: &str, key: &str) {
-    if state.db.reserve_class_a(&state.limits).unwrap_or(false) {
-        match state
-            .s3
-            .delete_object()
-            .bucket(&state.bucket)
-            .key(key)
-            .send()
-            .await
-        {
-            Ok(_) => {
-                let _ = state.db.mark_removed(id);
-            }
-            Err(err) => eprintln!("r2 delete failed for {key}: {err}"),
+    match state
+        .s3
+        .delete_object()
+        .bucket(&state.bucket)
+        .key(key)
+        .send()
+        .await
+    {
+        Ok(_) => {
+            let _ = state.db.mark_removed(id);
         }
+        Err(err) => eprintln!("r2 delete failed for {key}: {err}"),
     }
 }
 
@@ -523,24 +521,6 @@ impl Db {
             .map_err(ApiError::db)?
             .collect::<Result<Vec<_>, _>>()
             .map_err(ApiError::db)
-    }
-
-    fn reserve_class_a(&self, limits: &Limits) -> ApiResult<bool> {
-        let mut conn = self.lock()?;
-        let tx = conn.transaction().map_err(ApiError::db)?;
-        let month = current_month(&tx)?;
-        ensure_usage(&tx, &month)?;
-        let (class_a, _) = usage(&tx, &month)?;
-        if class_a + 1 > limits.class_a_guard() {
-            return Ok(false);
-        }
-        tx.execute(
-            "UPDATE usage SET class_a = class_a + 1 WHERE month = ?",
-            [&month],
-        )
-        .map_err(ApiError::db)?;
-        tx.commit().map_err(ApiError::db)?;
-        Ok(true)
     }
 
     fn lock(&self) -> ApiResult<std::sync::MutexGuard<'_, Connection>> {
