@@ -43,6 +43,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let app = Router::new()
         .route("/", get(index))
+        .route("/health", get(health))
         .route("/upload", post(upload).put(upload))
         .route("/f/{id}", get(download))
         .with_state(state);
@@ -197,6 +198,10 @@ a:hover{{color:#f5f5f5}}
 </body>
 </html>"#
     ))
+}
+
+async fn health() -> &'static str {
+    "ok\n"
 }
 
 async fn upload(
