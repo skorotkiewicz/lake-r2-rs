@@ -100,7 +100,7 @@ struct Limits {
 
 impl Limits {
     fn from_env() -> Result<Self, String> {
-        Ok(Self {
+        let limits = Self {
             storage_bytes: var_i64("STORAGE_LIMIT_BYTES", 10_000_000_000)?,
             class_a_ops: var_i64("CLASS_A_LIMIT", 1_000_000)?,
             class_b_ops: var_i64("CLASS_B_LIMIT", 10_000_000)?,
@@ -108,7 +108,17 @@ impl Limits {
             max_upload_bytes: var_usize("MAX_UPLOAD_BYTES", 100_000_000)?,
             ttl_seconds: var_i64("TTL_SECONDS", WEEK)?,
             max_downloads: var_i64("MAX_DOWNLOADS", 20)?,
-        })
+        };
+        if limits.storage_bytes <= 0 || limits.class_a_ops <= 0 || limits.class_b_ops <= 0 {
+            return Err("quota limits must be positive".into());
+        }
+        if !(0.0..=1.0).contains(&limits.guard_ratio) || limits.guard_ratio == 0.0 {
+            return Err("LIMIT_GUARD_RATIO must be greater than 0 and at most 1".into());
+        }
+        if limits.max_upload_bytes == 0 || limits.ttl_seconds <= 0 || limits.max_downloads <= 0 {
+            return Err("upload, ttl, and download limits must be positive".into());
+        }
+        Ok(limits)
     }
 
     fn storage_guard(&self) -> i64 {
