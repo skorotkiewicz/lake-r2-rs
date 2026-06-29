@@ -171,7 +171,14 @@ async fn index(State(state): State<Arc<AppState>>, headers: HeaderMap) -> Html<S
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>lake</title>
+<title>lake — ephemeral file sharing</title>
+<meta name="description" content="Fast, anonymous file sharing. No sign-up. Links expire after 7 days or 20 downloads. Upload via curl.">
+<meta property="og:title" content="lake — ephemeral file sharing">
+<meta property="og:description" content="Fast, anonymous file sharing. No sign-up. Links expire after 7 days or 20 downloads.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="lake — ephemeral file sharing">
+<meta name="twitter:description" content="Fast, anonymous file sharing. No sign-up. Links expire after 7 days or 20 downloads.">
 <style>
 :root{{font:16px/1.45 system-ui,sans-serif;color:#f5f5f5;background:#0b0b0b}}
 body{{margin:0;display:grid;min-height:100vh;place-items:center}}
