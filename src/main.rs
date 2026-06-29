@@ -172,19 +172,27 @@ async fn index(State(state): State<Arc<AppState>>, headers: HeaderMap) -> Html<S
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>lake</title>
 <style>
-:root{{font:16px/1.45 system-ui,sans-serif;color:#111;background:#fafafa}}
+:root{{font:16px/1.45 system-ui,sans-serif;color:#f5f5f5;background:#0b0b0b}}
 body{{margin:0;display:grid;min-height:100vh;place-items:center}}
 main{{width:min(680px,calc(100vw - 40px))}}
 h1{{font-size:clamp(38px,8vw,76px);line-height:1;margin:0 0 18px}}
 p{{color:#555;margin:12px 0}}
-code{{display:block;white-space:pre-wrap;overflow-wrap:anywhere;background:#111;color:#fff;padding:16px;border-radius:8px}}
+code{{display:block;white-space:pre-wrap;overflow-wrap:anywhere;background:#1a1a1a;color:#fff;padding:16px;border-radius:8px}}
+.hl-header{{color:#7dd3fc}}
+.hl-file{{color:#fca5a5}}
+footer{{margin-top:24px;font-size:13px;color:#a3a3a3;text-align:center}}
+a{{color:inherit;text-decoration:underline}}
+a:hover{{color:#f5f5f5}}
 </style>
 </head>
 <body>
 <main>
 <h1>lake</h1>
-<code>curl -fsS -H "X-Filename: file" --data-binary @file {base}/upload</code>
+<code>curl -fsS -H "<span class="hl-header">X-Filename: file</span>" --data-binary <span class="hl-file">@file</span> {base}/upload</code>
 <p>No sign-up. Links expire after 7 days or 20 downloads.</p>
+<footer>
+<a href="https://github.com/skorotkiewicz/lake-r2-rs">source</a> &middot; <a href="/health">health</a>
+</footer>
 </main>
 </body>
 </html>"#
