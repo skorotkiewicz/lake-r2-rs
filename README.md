@@ -4,6 +4,17 @@ Minimal file sharing on Cloudflare R2.
 
 Upload a file with one `curl` command. Get a link back. No sign-up. Links expire after 7 days or 20 downloads.
 
+## Quick Start
+
+```sh
+docker pull ghcr.io/skorotkiewicz/lake-r2-rs
+```
+
+```sh
+cp .env.example .env
+docker compose up
+```
+
 ## Run
 
 ```sh
