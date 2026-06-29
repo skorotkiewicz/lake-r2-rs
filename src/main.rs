@@ -44,6 +44,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let app = Router::new()
         .route("/", get(index))
         .route("/health", get(health))
+        .route("/favicon.svg", get(favicon))
         .route("/upload", post(upload).put(upload))
         .route("/f/{id}", get(download))
         .with_state(state);
@@ -179,6 +180,7 @@ async fn index(State(state): State<Arc<AppState>>, headers: HeaderMap) -> Html<S
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="lake — ephemeral file sharing">
 <meta name="twitter:description" content="Fast, anonymous file sharing. No sign-up. Links expire after 7 days or 20 downloads.">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <style>
 :root{{font:16px/1.45 system-ui,sans-serif;color:#f5f5f5;background:#0b0b0b}}
 body{{margin:0;display:grid;min-height:100vh;place-items:center}}
@@ -209,6 +211,14 @@ a:hover{{color:#f5f5f5}}
 
 async fn health() -> &'static str {
     "ok\n"
+}
+
+async fn favicon() -> impl IntoResponse {
+    (
+        StatusCode::OK,
+        [("Content-Type", "image/svg+xml"), ("Cache-Control", "public, max-age=31536000")],
+        include_str!("../favicon.svg"),
+    )
 }
 
 async fn upload(
