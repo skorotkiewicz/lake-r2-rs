@@ -216,7 +216,10 @@ async fn health() -> &'static str {
 async fn favicon() -> impl IntoResponse {
     (
         StatusCode::OK,
-        [("Content-Type", "image/svg+xml"), ("Cache-Control", "public, max-age=31536000")],
+        [
+            ("Content-Type", "image/svg+xml"),
+            ("Cache-Control", "public, max-age=31536000"),
+        ],
         include_str!("../favicon.svg"),
     )
 }
